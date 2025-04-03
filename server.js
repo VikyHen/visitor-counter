@@ -13,7 +13,7 @@ import visitorRouter from "./routes/visitorRoutes.js";
 
 dotenv.config();
 const app = express();
-const port = process.env.EXPRESS_PORT;
+const port = process.env.EXPRESS_PORT || 5000;
 
 connectDB();
 
@@ -27,16 +27,16 @@ const authRateLimiter = rateLimit({
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: ["http://localhost:5000", "http://10.0.2.2:5000", "visitor-counter-production.up.railway.app"], credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //API Endpoints
-app.use('/api/auth',  authRateLimiter, authRouter);
+app.use('/api/auth', authRateLimiter, authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/visitor', visitorRouter);
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0",() => {
     console.log(`Server started on port ${port}`);
 });
