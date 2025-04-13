@@ -121,7 +121,7 @@ export const sendVerifyOtp = async (req, res) => {
 
         if (!deviceData) {
             if (user.verifyOtp && user.verifyOtpExpiredAt > Date.now()) {
-                return res.json({ success: true, message: 'OTP is still valid. Please check your email' });
+                return res.json({ success: true, isVerified: false, message: 'OTP is still valid. Please check your email' });
             }
 
             const otp = Math.floor(100000 + Math.random() * 900000);
